@@ -27,6 +27,9 @@ with open("columnsData.json", "w") as outfile:
     outfile.write(jsondata)
 '''
 
+
+
+'''
 # MAKING THE ESSENTIALDATA.JSON FILE IN PROPER FORMAT
 import json
 
@@ -45,3 +48,4 @@ for column in data["columns"]:
 
 with open(file, 'w') as json_file:
     json.dump(data, json_file, indent=4)        
+'''
