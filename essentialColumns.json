@@ -50,7 +50,8 @@
             "itemproductname",
             "productitemtitle",
             "titlelabel",
-            "productdisplayname"
+            "productdisplayname",
+            "product"
         ],
         "product description": [
             "productdescription",
@@ -104,7 +105,8 @@
             "retailmaximum",
             "sellinglistprice",
             "pricevalue",
-            "maximumretail"
+            "maximumretail",
+            "marketprice"
         ],
         "selling price": [
             "sellingprice",
