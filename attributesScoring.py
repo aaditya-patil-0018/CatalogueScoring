@@ -1,6 +1,7 @@
 # importing all the needed modules
 from Catalogue import Catalogue
 from termcolor import colored, cprint   
+import os
 import json
 import re
 
@@ -71,7 +72,10 @@ class attributesScoring:
 
 if __name__ == "__main__":
     # filename = input("Enter the Filename of Catalogue")
-    filename = "Datasets/Amazon Books Data.csv"
+    files = os.listdir('Datasets/')
+    for n, i in enumerate(files):
+        print(f"{n}. {i}")
+    filename = f"Datasets/{files[int(input('Enter the file number: '))]}"
     CatalogueCheck1 = attributesScoring(filename=filename)
     # CatalogueCheck1.check()
     CatalogueCheck1.score()

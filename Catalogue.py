@@ -1,5 +1,6 @@
 # importing all the needed modules
 import pandas as pd
+import json
 
 # creating a class for handling Catalogue
 class Catalogue:
@@ -11,16 +12,31 @@ class Catalogue:
     def open(self, filename):
         fileExtension = filename.split(".")[-1]
         if fileExtension == "csv":
-            # reading the csv file
-            self.CatalogueData = pd.read_csv(filename)
-            # returning the database
-            return self.CatalogueData
-        
-        elif fileExtension == ".json":
-            pass
-        
+            return self.csv_to_json(filename)
         elif fileExtension == "xlsx":
-            pass
+            return self.xlsx_to_json(filename)
+        elif fileExtension == "json":
+            return json.load(open(filename))
+
+    def xlsx_to_json(self, filename):
+        self.CatalogueData = pd.read_excel(filename)
+        columns = self.CatalogueData.columns
+        jsonData = {}
+        for key in columns:
+            values = list(self.CatalogueData[key])
+            jsonData[key] = values
+        jsonData = json.dumps(jsonData, indent=4)
+        return jsonData
+
+    def csv_to_json(self, filename):
+        self.CatalogueData = pd.read_csv(filename)
+        columns = self.CatalogueData.columns
+        jsonData = {}
+        for key in columns:
+            values = list(self.CatalogueData[key])
+            jsonData[key] = values
+        jsonData = json.dumps(jsonData, indent=4)
+        return jsonData
 
     def information(self):
         try:
@@ -40,4 +56,4 @@ if __name__ == "__main__":
     catalogue = Catalogue()
     filename = input("Enter Filename: ")
     catalogue.open(filename)
-    print(catalogue.information())
+    # print(catalogue.information())
