@@ -16,7 +16,8 @@ class Catalogue:
         elif fileExtension == "xlsx":
             return self.xlsx_to_json(filename)
         elif fileExtension == "json":
-            return json.load(open(filename))
+            self.CatalogueData = pd.read_json(filename)
+            return self.CatalogueData
 
     def xlsx_to_json(self, filename):
         self.CatalogueData = pd.read_excel(filename)

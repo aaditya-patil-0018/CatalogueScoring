@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CatalogIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            background-color: #F5F5F5;
+            font-family: "Montserrat", sans-serif;
+            overflow: hidden; /* Hide overflow to prevent scrolling */
+        }
+
+        .name{
+            margin: 0;
+            margin-right: 5%;
+            display: inline-block; /* Added to prevent line break */
+            white-space: nowrap; /* Prevent line break */
+            overflow: hidden; /* Hide overflowing text */
+            animation: typing 5s steps(20, end) forwards; /* Animation with fill-mode set to forwards */
+        }
+
+        .description{
+            margin-left: 5%;
+        }
+
+        #firstDiv{
+            background-color: #FF521B;
+            color: white;
+            height: 85vh;
+            border-bottom-left-radius: 72px;
+            border-bottom-right-radius: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 1s ease; /* Added transition for smooth transform */
+        }
+
+        #fdivone{
+            flex: 1;
+            text-align: right;
+            font-size: 48px;
+        }
+
+        #fdivtwo{
+            flex: 1;
+            text-align: left;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .swipeNote{
+            color: #868686;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 3%;
+            cursor: pointer; /* Change cursor to pointer */
+        }
+
+        /* Animation for typing effect */
+        @keyframes typing {
+            0% { width: 0 }
+            20% { width: 100% }
+            30% { width: 100% }
+            50% { width: 100% }
+            60% { width: 100% }
+            80% { width: 100% }
+            100% { width: 100% }
+        }
+
+        /* Remove border after animation */
+        .name {
+            border-right: none; /* Remove border after animation */
+        }
+
+        /* Animation for swipe up */
+        .swipe-up {
+            transform: translateY(-100%);
+        }
+
+        /* Hide swipe up text */
+        .hide {
+            display: none;
+        }
+
+        #navBar{
+            margin-left: 2%;
+            color: #FF521B;
+        }
+
+        #bodyDiv{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80vh;
+        }
+
+        #leftDiv{
+            flex: 1;
+        }
+
+        #rightDiv{
+            flex: 1;
+        }
+
+        .lDivH1{
+            font-size: 58px;
+            margin-left: 24%;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- <div id="firstDiv">
+        <div id="fdivone">
+            <h1 class="name">CatalogIQ</h1>
+        </div>
+        <div id="fdivtwo">
+            <p class="description">Assess smarter with CatalogIQ 
+            <br>Your trusted guide to online catalog assessments.</p>
+        </div>
+    </div>
+    <p id="swipeNote" class="swipeNote">Swipe Up to Access</p> -->
+
+    <div id="navBar">
+        <h2>CatalogIQ</h2>
+    </div>
+
+    <div id="bodyDiv">
+        <div id="leftDiv">
+            <h1 class="lDivH1">Compilance</h1>
+            <h1 class="lDivH1">Correctness</h1>
+            <h1 class="lDivH1">Completeness</h1>
+        </div>
+        <div id="rightDiv">
+            <h2>Login Form</h2>
+        </div>
+    </div>
+
+
+    <script>
+        window.addEventListener('wheel', handleScroll);
+
+        function handleScroll(event) {
+            if (event.deltaY > 0) {
+                document.getElementById('firstDiv').classList.add('swipe-up');
+                document.getElementById('swipeNote').classList.add('hide'); // Hide swipe up text
+                // Remove event listener to prevent multiple animations
+                window.removeEventListener('wheel', handleScroll);
+            }
+        }
+    </script>
+</body>
+</html>

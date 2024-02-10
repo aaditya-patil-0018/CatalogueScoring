@@ -4,6 +4,7 @@
             [
                 "productimage",
                 "imageurl",
+                "image",
                 "picture",
                 "visual",
                 "photolink",
@@ -88,6 +89,7 @@
         "maximum retailing price": [
             [
                 "maximumretailingprice",
+                "mrp",
                 "mrprice",
                 "listprice",
                 "retailprice",
@@ -180,6 +182,7 @@
             [
                 "productcategory",
                 "category",
+                "type",
                 "producttype",
                 "itemcategory",
                 "classification",
@@ -247,6 +250,7 @@
         "product specification": [
             [
                 "productspecification",
+                "productspecifications",
                 "specs",
                 "specifications",
                 "technicaldetails",

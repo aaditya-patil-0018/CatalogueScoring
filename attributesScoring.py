@@ -7,15 +7,18 @@ import re
 
 class attributesScoring:
     
-    def __init__(self, filename):
-        self.catalogue = Catalogue()
-        self.catalogueData = self.catalogue.open(filename)
+    def __init__(self, CatalogueData, CatalogueInformation):
+        # self.catalogue = Catalogue()
+        # self.catalogue = catalogue
+        # self.catalogueData = self.catalogue.open(filename)
+        self.catalogueData = CatalogueData
+        self.catalogueInformation = CatalogueInformation
         self.catalogueAttributes = {}
         self.essentialAttributesFile = "essentialColumns.json"
         self.attributesDictionary = {}
 
     def check(self):
-        self.catalogueInformation = self.catalogue.information()
+        # self.catalogueInformation = self.catalogue.information()
         self.attributeList = []
         self.readEssentialAttributes()
         for attribute in self.catalogueInformation:
@@ -33,9 +36,9 @@ class attributesScoring:
     def identifyAttribute(self, attribute):
         for attributes in self.essentialAttributes["columns"]:
             for token in self.essentialAttributes["columns"][attributes][0]:
-                if token == attribute or attribute in token: # or token in attribute:
+                if token == attribute:# or attribute in token: # or token in attribute:
                     # if token == # here we would check the datatype of the essential attribute matches data's
-                    # print(attribute)
+                    # print(colored(f"{attribute.capitalize()}", color="light_green"))
                     self.attributesDictionary[attributes][0] = 1
                     self.attributesDictionary[attributes].append(attribute)
                     return True
@@ -71,11 +74,16 @@ class attributesScoring:
                 print(colored(f"Remove: {attribute}", color="light_red"))
 
 if __name__ == "__main__":
-    # filename = input("Enter the Filename of Catalogue")
+    filename = input("Enter the Filename of Catalogue: ")
+    '''
     files = os.listdir('Datasets/')
     for n, i in enumerate(files):
         print(f"{n}. {i}")
     filename = f"Datasets/{files[int(input('Enter the file number: '))]}"
-    CatalogueCheck1 = attributesScoring(filename=filename)
+    '''
+    catalogue = Catalogue()
+    catalogueData = catalogue.open(filename)
+    catalogueInformation = catalogue.information()
+    CatalogueCheck1 = attributesScoring(CatalogueData=catalogueData, CatalogueInformation=catalogueInformation)
     # CatalogueCheck1.check()
     CatalogueCheck1.score()
