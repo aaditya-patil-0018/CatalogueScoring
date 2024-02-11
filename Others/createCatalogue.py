@@ -1,6 +1,7 @@
 # importing the needed modules
 import json
 import pandas as pd
+import base64
 from numpy import nan
 import os
 
@@ -26,13 +27,20 @@ jsonFile["manufacturer"] = list(data["brand"])[:4001]
 jsonFile["product specifications"] = list(data["product_specifications"])[:4001]
 
 imgFile = os.listdir("flipkart_com-ecommerce_sample_images")
+images = {}
+
+for i in range(4001):
+    if f"{i}.jpeg" in imgFile:
+        with open(f"flipkart_com-ecommerce_sample_images/{i}.jpeg", mode="rb") as file:
+            img = file.read()
+        images[i] = base64.b64encode(img).decode('utf-8')  # Encode as base64 string
+        print(f"{i}: Done")
 
 for i in range(4001):
     jsonFile["id"].append(i)
-    if f"{i}.jpeg" in imgFile:
-        jsonFile["product image"].append(f"{i}.jpeg")
-    else:
-        jsonFile["product image"].append(nan)
+    jsonFile["product image"].append(images.get(i, nan))
 
 with open(jsonFilename, "w") as outfile:
+    json.dumps(jsonFile, indent=4)
     json.dump(jsonFile, outfile)
+    # print(jsonFile)

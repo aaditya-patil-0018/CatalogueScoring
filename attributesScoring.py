@@ -16,6 +16,7 @@ class attributesScoring:
         self.catalogueAttributes = {}
         self.essentialAttributesFile = "essentialColumns.json"
         self.attributesDictionary = {}
+        # self.score()
 
     def check(self):
         # self.catalogueInformation = self.catalogue.information()
@@ -57,21 +58,31 @@ class attributesScoring:
         print("\n----------------")
         cprint("Recommendations:", "light_yellow")
         print("----------------")
-        self.recommendation()
+        recommendData = self.recommendation()
+        return {"score": score, "total": total, "percentage": score*10, "recommendation": recommendData}
 
     def recommendation(self):
+        data = {
+            "add": [],
+            "rename": [],
+            "remove": []
+        }
         columnNamedProperly = []
         for attribute in self.attributesDictionary:
             if self.attributesDictionary[attribute][0] == 0:
                 print(colored(f"Add: {attribute.capitalize()}", color="light_green"))
+                data["add"].append(attribute)
             elif self.attributesDictionary[attribute][0] == 1:
                 columnNamedProperly.append(self.attributesDictionary[attribute][1])
 
         for attribute in self.attributeList:
             if attribute not in columnNamedProperly:
                 print(colored(f"Rename: {attribute} [optional]", color="light_red"))
+                data["rename"].append(attribute)
             elif "unname" in attribute.lower():
                 print(colored(f"Remove: {attribute}", color="light_red"))
+                data["remove"].append(attribute)
+        return data
 
 if __name__ == "__main__":
     filename = input("Enter the Filename of Catalogue: ")
