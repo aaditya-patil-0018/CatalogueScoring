@@ -148,12 +148,14 @@
     <script>
         window.addEventListener('wheel', handleScroll);
 
-        function handleScroll(event) {
+        async function handleScroll(event) {
             if (event.deltaY > 0) {
                 document.getElementById('firstDiv').classList.add('swipe-up');
                 document.getElementById('swipeNote').classList.add('hide'); // Hide swipe up text
                 // Remove event listener to prevent multiple animations
                 window.removeEventListener('wheel', handleScroll);
+                await new Promise(r => setTimeout(r, 1000));
+                window.location = "/score";
             }
         }
     </script>
