@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CatalogIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/csas2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/static/Icon.png">
+    <style>
+        body{
+            margin: 0;
+            background-color: #F5F5F5;
+            font-family: "Montserrat", sans-serif;
+        }
+        h1{
+            margin: 0;
+            color: #FF521B;
+        }
+        #navBar{
+            display: flex;
+            align-items: center;
+            padding-top: 20px;
+        }
+        #logoDiv{
+            flex: 1;
+            margin-left: 40px;
+        }
+        a{
+            color: black;
+            text-decoration: none;
+            margin-left: 40px;
+        }
+        a:hover{
+            color: #FF521B;
+        }
+        {% block style %}
+
+        {% endblock %}
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 20%;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="navBar">
+        <div id="logoDiv">
+            <h1>CatalogIQ</h1>
+        </div>
+        <div id="pages">
+            <a href="/catalogue">Catalogue</a>
+            <a href="/score" onclick="showLoading()">Score</a> <!-- Add onclick event -->
+            <a href="/documentation" style="margin-right: 40px;">Documentation</a>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="loadingModal" class="modal">
+        <div class="modal-content">
+            <h2>Scoring the Score...</h2>
+            <img class="loading-spinner" src="/static/loading.gif" alt="Loading...">
+        </div>
+    </div>
+
+    {% block body %}
+
+    {% endblock %}
+
+    <script>
+        function showLoading() {
+            var modal = document.getElementById("loadingModal");
+            modal.style.display = "block"; // Show modal
+        }
+    </script>
+</body>
+</html>

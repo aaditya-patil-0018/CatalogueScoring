@@ -128,36 +128,16 @@
     </div>
     <p id="swipeNote" class="swipeNote">Swipe Up to Access</p>
 
-    <!-- <div class="div2">
-        <div id="navBar">
-            <h2>CatalogIQ</h2>
-        </div>
-
-        <div id="bodyDiv">
-            <div id="leftDiv">
-                <h1 class="lDivH1">Compilance</h1>
-                <h1 class="lDivH1">Correctness</h1>
-                <h1 class="lDivH1">Completeness</h1>
-            </div>
-            <div id="rightDiv">
-                <h2>Login Form</h2>
-            </div>
-        </div>
-    </div> -->
-
     <script>
-        window.addEventListener('wheel', handleScroll);
-
-        async function handleScroll(event) {
-            if (event.deltaY > 0) {
+        window.addEventListener('DOMContentLoaded', () => {
+            setInterval(() => {
                 document.getElementById('firstDiv').classList.add('swipe-up');
                 document.getElementById('swipeNote').classList.add('hide'); // Hide swipe up text
-                // Remove event listener to prevent multiple animations
-                window.removeEventListener('wheel', handleScroll);
-                await new Promise(r => setTimeout(r, 1000));
-                window.location = "/score";
-            }
-        }
+                setTimeout(() => {
+                    window.location = "/catalogue";
+                }, 1000); // Adjust the delay before redirection
+            }, 2000); // Adjust the interval between swipes
+        });
     </script>
 </body>
 </html>

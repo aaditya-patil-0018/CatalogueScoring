@@ -1,220 +1,167 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CatalogIQ</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <style>
-        /* Reset default margin and padding */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+{% extends 'base.html' %}
 
-        body {
-            background-color: #FFFFFF; /* Change to white */
-            font-family: "Montserrat", sans-serif;
-            color: #252525; /* Change to black */
-        }
+{% block style %}
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.1); /* Change to light gray */
-            border-radius: 10px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-            margin-top: 50px;
-        }
+    .score-cards {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 40px;
+      margin-left: 240px;
+      margin-right: 240px;
+    }
 
-        .nav {
-            text-align: center;
-            padding: 20px 0;
-        }
+    .score-card {
+      width: 200px;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      border-radius: 20px;
+      text-align: center;
+      background-color: #fff;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+      margin: 0 10px;
+    }
 
-        h1 {
-            color: #FF521B;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 36px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Slightly reduce shadow */
-        }
+    .score-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    }
 
-        label {
-            font-size: 18px;
-            margin-right: 10px;
-            display: block;
-            margin-bottom: 10px;
-        }
+    .score-card h2 {
+      margin-top: 0;
+      color: #333;
+      font-size: 24px;
+    }
 
-        input[type="file"] {
-            margin-bottom: 20px;
-            width: 100%;
-            padding: 10px;
-            border: none;
-            background-color: rgba(0, 0, 0, 0.1); /* Change to light gray */
-            color: #252525; /* Change to black */
-            border-radius: 5px;
-        }
+    .score-card .score {
+      font-size: 36px;
+      color: #ff521b;
+      font-weight: bold;
+      margin: 10px 0;
+    }
 
-        input[type="submit"] {
-            background-color: #FF521B;
-            color: black;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            position: relative; /* Add relative positioning */
-        }
+    .description-section {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 60px;
+      margin-left: 100px;
+      margin-right: 100px;
+    }
 
-        input[type="submit"]:hover {
-            background-color: #FF6F4D;
-        }
+    .description-card {
+      width: 300px;
+      padding: 20px;
+      border-radius: 20px;
+      background-color: #fff;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+      margin-bottom: 30px;
+    }
 
-        /* Loading animation */
-        .loading-text {
-            display: none; /* Initially hidden */
-            text-align: center;
-        }
+    .description-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    }
 
-        .loading-text .dot {
-            animation: dot-animation 1s infinite;
-        }
+    .description-card h2 {
+      margin-top: 0;
+      color: #333;
+      font-size: 24px;
+    }
 
-        @keyframes dot-animation {
-            0%, 20% {
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
+    .description-card p {
+      margin-bottom: 10px;
+      color: #555;
+      font-size: 16px;
+    }
 
-        /* Styling for the JSON code */
-        pre {
-            display: block;
-            padding: 10px;
-            background-color: #EEEEEE; /* Change to lighter gray */
-            border-radius: 5px;
-            overflow-x: auto;
-            font-size: 14px;
-            margin-top: 20px;
-            white-space: pre-wrap;
-        }
+    .description-card ul {
+      padding-left: 20px;
+    }
 
-        pre code {
-            color: #252525; /* Change to black */
-        }
+    .description-card ul li {
+      margin-bottom: 5px;
+      color: #777;
+    }
+ {% endblock %}
+{% block body %}
+  <h1 style="text-align: center; color: black; margin-top: 40px;">Score: {{ total_score }}</h1>
+  <div class="score-cards">
+    {% if correcteness < 50.0 %}
+      <div class="score-card" style="border-top: 10px solid red;">
+        <h2>Correctness</h2>
+        <p class="score">{{ correcteness }}%</p>
+      </div>
+    {% else %}
+      <div class="score-card" style="border-top: 10px solid greenyellow;">
+        <h2>Correctness</h2>
+        <p class="score">{{ correcteness }}%</p>
+      </div>
+    {% endif %}
 
-        .see-more-details {
-            text-align: center;
-            cursor: pointer;
-            color: black;
-            margin-top: 20px;
-            text-decoration: underline;
-        }
+    {% if completeness < 50.0 %}
+      <div class="score-card" style="border-top: 10px solid red;">
+        <h2>Completeness</h2>
+        <p class="score">{{ completeness }}%</p>
+      </div>
+    {% else %}
+      <div class="score-card" style="border-top: 10px solid greenyellow;">
+        <h2>Completeness</h2>
+        <p class="score">{{ completeness }}%</p>
+      </div>
+    {% endif %}
 
-        .see-more-details:hover {
-            color: #FF521B;
-        }
-        
-        #feature{
-            display: none;
-            margin-top: 2%;
-        }
+    {% if compliance < 50.0 %}
+      <div class="score-card" style="border-top: 10px solid red;">
+        <h2>Compliance</h2>
+        <p class="score">{{ compliance }}%</p>
+      </div>
+    {% else %}
+      <div class="score-card" style="border-top: 10px solid greenyellow;">
+        <h2>Compliance</h2>
+        <p class="score">{{ compliance }}%</p>
+      </div>
+    {% endif %}
 
-        #featureList{
-            display: none;
-            margin-left: 10%;
-            margin-top: 2%;
-        }
-
-        .newFeatureList{
-            margin-left: 12%;
-        }
-
-    </style>
-</head>
-<body>
-    <div class="nav">
-        <h1>CatalogIQ</h1>
+  </div>
+  <div class="description-section">
+    <div class="description-card">
+      <h2>Attribute Score</h2>
+      <p>Score: {{ score["attribute score"]["score"] }}/{{ score["attribute score"]["total"] }}</p>
+      <p>Percentage: {{ score["attribute score"]["percentage"] }}%</p>
+      <h4>Recommendations:</h4>
+      <ul>
+        <li>Add: {{ score["attribute score"]["recommendation"]["add"] |join(', ') }}</li>
+        <li>Rename: {{ score["attribute score"]["recommendation"]["rename"] |join(', ') }}</li>
+        <li>Remove: {{ score["attribute score"]["recommendation"]["remove"] |join(', ') }}</li>
+      </ul>
     </div>
-    <div class="container">
-        <h1>Score</h1>
-        <form id="scoreForm" action="/score" method="post" enctype="multipart/form-data">
-            <label for="file">Add File:</label>
-            <input type="file" name="file" accept=".json, .csv, .xlsx">
-            <input id="submitBtn" type="submit" value="Submit" onclick="submitForm()">
-            <div class="loading-text" id="loadingText">
-                <h2>Scoring</h2>
-                <span class="dot">.</span>
-                <span class="dot">.</span>
-                <span class="dot">.</span>
-            </div>
-            {% if score != "" %}
-            <h2 style="margin-top: 4%;">Score: {{ total_score }}%</h2>
-            <div id="features">
-                <h2 id="feature">Features:</h2>
-                <ul id="featureList">
-                    <!-- {% for key, value in score.items() %}
-                        <li><strong>{{ key }}:</strong> {{ value }}</li>
-                    {% endfor %} -->
-                    {% for key, value in score.items() %}
-                    <li style="margin-top: 1%; color: #FF521B;"><strong>{{ key }}:</strong>
-                        {% if value is mapping %}
-                            <ul class="newFeatureList" style="color: black;">
-                                {% for nested_key, nested_value in value.items() %}
-                                    {% if nested_value is mapping %}
-                                        <!-- <ul class="newnewFeatureList"> -->
-                                            {% for nested_nested_key, nested_nested_value in nested_value.items() %}
-                                                <li><strong>{{ nested_nested_key }}:</strong> {{ nested_nested_value }}</li>
-                                            {% endfor %}
-                                        <!-- </ul> -->
-                                    {% else %}
-                                        <li><strong>{{ nested_key }}:</strong> {{ nested_value }}</li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            {{ value }}
-                        {% endif %}
-                    </li>
-                {% endfor %}
-                </ul>
-            </div>
-            <div class="see-more-details" onclick="showMoreDetails()">See More Details</div>
-            {% endif %}
-        </form>
+    <div class="description-card">
+      <h2>Null Score</h2>
+      <p>Total Null: {{ score["null score"]["totalNull"] }}</p>
+      <p>Total Percent: {{ score["null score"]["totalPercent"] }}%</p>
+      <h4>Columns with Null Values:</h4>
+      <ul>
+        {% for column, count in score["null score"]["columns"].items() %}
+          <li>{{ column }}: {{ count }}</li>
+        {% endfor %}
+      </ul>
     </div>
-
-    <!-- JavaScript to show loading text on form submission -->
-    <script>
-        function submitForm() {
-            document.getElementById("submitBtn").style.display = "none"; // Hide submit button
-            document.getElementById("loadingText").style.display = "block"; // Show loading text
-            document.getElementById("scoreForm").submit(); // Submit the form
-        }
-    
-        function showMoreDetails() {
-            var feature = document.getElementById("feature")
-            var featureList = document.getElementById("featureList");
-            if (featureList.style.display === "none" || featureList.style.display === "") {
-                featureList.style.display = "block";
-                feature.style.display = "block";
-            } else {
-                featureList.style.display = "none";
-                feature.style.display = "none";
-            }
-        }
-    </script>
-    
-</body>
-</html>
+    <div class="description-card">
+      <h2>Image Score</h2>
+      <p>Clear: {{ score["image score"]["clear"] }} ({{ score["image score"]["clear percentage"] }}%)</p>
+      <p>Blur: {{ score["image score"]["blur"] }} ({{ score["image score"]["blur percentage"] }}%)</p>
+      <p>No Image: {{ score["image score"]["no image"] }} ({{ score["image score"]["no image percentage"] }}%)</p>
+    </div>
+  </div>
+{% endblock %}

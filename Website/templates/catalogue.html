@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block style %}
+    #cover{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #tableDiv {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 80vh;
+        width: 90%;
+        position: relative;
+        transition: border-color 0.3s ease; 
+    }
+
+    #tableDiv.highlight {
+        border-color: #666;
+    }
+
+    #tableDiv.dragover {
+        background-color: #ff8761; /* Background color during dragging */
+    }
+
+    h3,
+    input {
+        color: gray;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    input[type="submit"] {
+        background-color: #ff521b;
+        color: black;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        position: relative;
+        /* Add relative positioning */
+    }
+
+    input[type="submit"]:hover {
+        background-color: #ff6f4d;
+    }
+
+    /* Table styles */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        background-color: #f2f2f2;
+        border-radius: 80;
+        font-size: 0.6rem;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #666;
+        color: white;
+    }
+
+    /* Pagination styles */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination button {
+        border: none;
+        padding: 10px 15px;
+        background-color: #ccc;
+        cursor: pointer;
+        margin: 0 5px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .pagination button:hover {
+        background-color: #ddd;
+    }
+
+    .pagination .active {
+        background-color: #4caf50;
+        color: white;
+    }
+{% endblock %}
+
+{% block body %}
+<div id="cover">
+    {% if tableData == "" %}
+        <div id="tableDiv" onclick="clck()" style="border: 2px dashed #999; align-items: center;">
+    {% elif tableData != "" %}
+        <div id="tableDiv" style="align-items: left;">
+    {% endif %}
+        {% if tableData == "" %}
+            <!-- <img src="" alt=""> -->
+            <form id="fileUploadForm" action="/catalogue" method="post" enctype="multipart/form-data">
+                <h3>Click here to Add the catalog file to the system</h3>
+                <input type="file" name="file" id="fileInput" accept=".json, .csv, .xlsx" onchange="handleFileSelect(event)">
+                <!-- <input type="submit" value="Upload File"> -->
+            </form>
+        {% elif tableData != "" %}
+        <form id="fileUploadForm" action="/catalogue" method="post" enctype="multipart/form-data" style="margin-top: 20px; margin-bottom: 10px;">
+            <label for="file" style="color: gray;">Add new file: </label>
+            <input type="file" name="file" id="fileInput" style="display: block; margin-top: 5px;" accept=".json, .csv, .xlsx" onchange="handleFileSelect(event)">
+        </form>
+            {% set pageno = 1 %}
+            {% set totalpageno = (tableData[(tableData.keys() | list)[0]] | length) // 10 %}
+            <table> 
+                <tr>
+                    {% for i in tableData %}
+                        <th>{{i}}</th>
+                    {% endfor %}
+                </tr>
+                {% for j in range(10) %}
+                <tr>
+                    {% for k in tableData %}
+                        {% if tableData[k][j] is string %}
+                            {% if tableData[k][j]|length > 100 %}
+                                <td>{{ tableData[k][j][:100] }}...</td>
+                            {% else %}
+                                <td>{{tableData[k][j]}}</td>
+                            {% endif %}
+                        {% else %}
+                        <td>{{tableData[k][j]}}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                <tbody id="tableData"></tbody>
+            </table>
+            {{column}}
+            <div class="pagination">
+                <button id="prevButton" disabled>Previous</button>
+                <button id="page1" class="active">1</button>
+                {% for i in range(pageno+1, pageno+10) %}
+                    <button id=page{{i}}>{{i}}</button>
+                {% endfor %}
+                <button id="nextButton">Next</button>
+            </div>
+        {% endif %}
+    </div>
+</div>
+<p style="color: grey; text-align: center; margin-top: 24px;">pagination is still under build.</p>
+<script>
+
+    // Event listeners for button clicks
+    const prevButton = document.getElementById("prevButton");
+    const nextButton = document.getElementById("nextButton");
+    const pageButtons = document.querySelectorAll(".pagination button");
+    prevButton.addEventListener("click", () => {
+        currentPage--;
+        updateButtonsAndData();
+    });
+    nextButton.addEventListener("click", () => {
+        currentPage++;
+        updateButtonsAndData();
+    });
+    pageButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            currentPage = parseInt(button.textContent);
+            updateButtonsAndData();
+        });
+    });
+
+    // Function to update button states and table data
+    function updateButtonsAndData() {
+        prevButton.disabled = currentPage === 1;
+        nextButton.disabled = currentPage >= Math.ceil(products.length / 8);
+        pageButtons.forEach(button => {
+            button.classList.remove("active");
+        });
+        document.getElementById(`page${currentPage}`).classList.add("active");
+        // populateTableData(currentPage);
+    }
+
+    // Function to open file chooser on clicking the table div
+    // document.getElementById('tableDiv').addEventListener('click', () => {
+    //     document.querySelector('input[type="file"]').click();
+    // });
+
+    function clck(){
+        document.querySelector('input[type="file"]').click();
+    }
+
+    // Function to handle file selection
+    function handleFileSelect(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        event.stopPropagation(); // Stop event propagation to prevent opening file in a new tab
+
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+
+        // Prompt the user to confirm uploading the file with filename
+        const confirmation = confirm(`Upload file: ${file.name}?`);
+        if (confirmation) {
+            // Submit the form if the user confirms
+            document.getElementById('fileUploadForm').submit();
+        } else {
+            alert("File not uploaded!");
+        }
+    }
+</script>
+
+{% endblock %}

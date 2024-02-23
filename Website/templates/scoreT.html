@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+
+{% block style %}
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FFFFFF; /* Change to white */
+            font-family: "Montserrat", sans-serif;
+            color: #252525; /* Change to black */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.1); /* Change to light gray */
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            margin-top: 50px;
+        }
+
+        .nav {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        #scoreHeading {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 36px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Slightly reduce shadow */
+        }
+
+        label {
+            font-size: 18px;
+            margin-right: 10px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: rgba(0, 0, 0, 0.1); /* Change to light gray */
+            color: #252525; /* Change to black */
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #FF521B;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: relative; /* Add relative positioning */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #FF6F4D;
+        }
+
+        /* Loading animation */
+        .loading-text {
+            display: none; /* Initially hidden */
+            text-align: center;
+        }
+
+        .loading-text .dot {
+            animation: dot-animation 1s infinite;
+        }
+
+        @keyframes dot-animation {
+            0%, 20% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Styling for the JSON code */
+        pre {
+            display: block;
+            padding: 10px;
+            background-color: #EEEEEE; /* Change to lighter gray */
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 14px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+
+        pre code {
+            color: #252525; /* Change to black */
+        }
+
+        .see-more-details {
+            text-align: center;
+            cursor: pointer;
+            color: black;
+            margin-top: 20px;
+            text-decoration: underline;
+        }
+
+        .see-more-details:hover {
+            color: #FF521B;
+        }
+        
+        #feature{
+            display: none;
+            margin-top: 2%;
+        }
+
+        #featureList{
+            display: none;
+            margin-left: 10%;
+            margin-top: 2%;
+        }
+
+        .newFeatureList{
+            margin-left: 12%;
+        }
+
+{% endblock %}
+{% block body %}
+    <!-- <div class="nav">
+        <h1>CatalogIQ</h1>
+    </div> -->
+    <div class="container">
+        <h1 id="scoreHeading">Score</h1>
+        <form id="scoreForm" action="/score" method="post" enctype="multipart/form-data">
+            <label for="file">Add File:</label>
+            <input type="file" name="file" accept=".json, .csv, .xlsx">
+            <input id="submitBtn" type="submit" value="Submit" onclick="submitForm()">
+            <div class="loading-text" id="loadingText">
+                <h2>Scoring</h2>
+                <span class="dot">.</span>
+                <span class="dot">.</span>
+                <span class="dot">.</span>
+            </div>
+            {% if score != "" %}
+            <h2 style="margin-top: 4%;">Score: {{ total_score }}%</h2>
+            <div id="features">
+                <h2 id="feature">Features:</h2>
+                <ul id="featureList">
+                    <!-- {% for key, value in score.items() %}
+                        <li><strong>{{ key }}:</strong> {{ value }}</li>
+                    {% endfor %} -->
+                    {% for key, value in score.items() %}
+                    <li style="margin-top: 1%; color: #FF521B;"><strong>{{ key }}:</strong>
+                        {% if value is mapping %}
+                            <ul class="newFeatureList" style="color: black;">
+                                {% for nested_key, nested_value in value.items() %}
+                                    {% if nested_value is mapping %}
+                                        <!-- <ul class="newnewFeatureList"> -->
+                                            {% for nested_nested_key, nested_nested_value in nested_value.items() %}
+                                                <li><strong>{{ nested_nested_key }}:</strong> {{ nested_nested_value }}</li>
+                                            {% endfor %}
+                                        <!-- </ul> -->
+                                    {% else %}
+                                        <li><strong>{{ nested_key }}:</strong> {{ nested_value }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            {{ value }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="see-more-details" onclick="showMoreDetails()">See More Details</div>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- JavaScript to show loading text on form submission -->
+    <script>
+        function submitForm() {
+            document.getElementById("submitBtn").style.display = "none"; // Hide submit button
+            document.getElementById("loadingText").style.display = "block"; // Show loading text
+            document.getElementById("scoreForm").submit(); // Submit the form
+        }
+    
+        function showMoreDetails() {
+            var feature = document.getElementById("feature")
+            var featureList = document.getElementById("featureList");
+            if (featureList.style.display === "none" || featureList.style.display === "") {
+                featureList.style.display = "block";
+                feature.style.display = "block";
+            } else {
+                featureList.style.display = "none";
+                feature.style.display = "none";
+            }
+        }
+    </script>
+    
+{% endblock %}

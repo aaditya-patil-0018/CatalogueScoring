@@ -30,7 +30,7 @@ class nullChecker:
             valuesCount += int(len(df[column]))
             columnsData[column] = int(totalNullValues)
             totalNull += int(totalNullValues)
-            # totalPercent = float(round((( totalNull / valuesCount) * 100), 2))
+            totalPercent = 100.00 - float(round((( totalNull / valuesCount) * 100), 2))
         print({"columns": columnsData, "totalNull": totalNull, "totalPercent": totalPercent})
         return {"columns": columnsData, "totalNull": totalNull, "totalPercent": totalPercent}
     

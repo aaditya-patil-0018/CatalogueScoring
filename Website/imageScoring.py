@@ -47,7 +47,7 @@ class ImageScoring:
         def process_image_batch(batch):
             for image_data in batch:
                 try:
-                    if image_data:
+                    if image_data and image_data.replace(" ","")!="":
                         # Decode base64 image data and convert to numpy array
                         image_bytes = base64.b64decode(image_data)
                         nparr = np.frombuffer(image_bytes, np.uint8)
@@ -62,6 +62,7 @@ class ImageScoring:
                     else:
                         self.no_image += 1  # Increment count for rows with no image data
                 except Exception as e:
+                    self.no_image += 1
                     print(f"Error processing image: {e}")  # Print error if image processing fails
 
         with ThreadPoolExecutor() as executor:

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block style %}
+#apidocumentation {
+    line-height: 1.6;
+    padding: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+#apiheading, h2, h3 {
+    color: #333;
+}
+
+#apiheading {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+h2 {
+    margin-top: 20px;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+.endpoint {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.endpoint h3 {
+    margin-top: 0;
+}
+
+.endpoint p {
+    margin-bottom: 5px;
+}
+
+.param {
+    font-weight: bold;
+}
+
+.param-desc {
+    margin-left: 20px;
+}
+
+.json-response {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+.json-response pre {
+    white-space: pre-wrap;
+}
+{% endblock %}
+
+{% block body %}
+<div id="apidocumentation">
+    <h1 id="apiheading">API Documentation</h1>
+
+    <div class="endpoint">
+        <h3>POST /score/</h3>
+        <p>Submit a file for scoring.</p>
+        <h4>Request:</h4>
+        <p>This endpoint accepts files in JSON, CSV, or XLSX format for scoring.</p>
+        <h4>Parameters:</h4>
+        <ul>
+            <li><span class="param">json</span>: <span class="param-desc">(optional) JSON file for scoring</span></li>
+            <li><span class="param">csv</span>: <span class="param-desc">(optional) CSV file for scoring</span></li>
+            <li><span class="param">xlsx</span>: <span class="param-desc">(optional) XLSX file for scoring</span></li>
+        </ul>
+        <h4>Response:</h4>
+        <div class="json-response">
+            <pre>{
+    "attribute score": {
+        "score": 7,
+        "total": 10,
+        "percentage": 70,
+        "recommendation": {
+            "add": ["inventory", "product category", "key features"],
+            "rename": ["id"],
+            "remove": []
+        }
+    },
+    "null score": {
+        "columns": {
+            "id": 0,
+            "product image": 368,
+            "product name": 0,
+            "product description": 1,
+            "maximum retailing price": 10,
+            "selling price": 10,
+            "manufacturer": 1104,
+            "product specifications": 5
+        },
+        "totalNull": 1498,
+        "totalPercent": 0
+    },
+    "image score": {
+        "clear": 0,
+        "clear percentage": 0.0,
+        "blur": 0,
+        "blur percentage": 0.0,
+        "no image": 368,
+        "no image percentage": 9.2
+    }
+}</pre>
+        </div>
+    </div>
+</div>
+{% endblock %}
