@@ -39,7 +39,10 @@ class ImageScoring:
             if "image" in column.lower():
                 image_column = column
                 break
-        return image_column
+        if image_column != None:
+            return image_column
+        else:
+            return False
 
     # Method to check clarity of images
     def check_clarity(self):
@@ -90,5 +93,8 @@ if __name__ == "__main__":
     filename = "catalogue3.json"  # Replace with your filename
     catalogue = Catalogue()  # Instantiate Catalogue class
     catalogue_data = catalogue.open(filename)  # Open catalogue data
+    start_time = time.time()
     img_scoring = ImageScoring(catalogue_data)  # Initialize ImageScoring class with catalogue data
     img_scoring.check_clarity()
+    end_time = time.time()
+    print(f"Time taken: {end_time - start_time} seconds")
