@@ -1,3 +1,14 @@
+'''
+Catalogue
+    This file processes and works with Catalogues.
+
+Functions in Catalogue.py =>
+    - open() : Opens the passed catalogue file in pandas json dataframe format
+        - xlsx_to_json() : converts the excel data file into json file and return the data
+        - csv_to_json() : converts the csv data file into json file and return the data
+    - information() : return the information about the data
+'''
+
 # importing all the needed modules
 import pandas as pd
 import json

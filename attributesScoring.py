@@ -1,3 +1,12 @@
+'''
+Attributes Scoring
+    This is file is designed to score the attributes of the catalogue.
+
+Why Attributes Scoring is important Required?
+    Every catalogue must have certian attributes to make it complete and sensable.
+    Attributes like: Name, Image, Price, Description, etc. These are certain Essential attributes that every catalogue file should have.
+'''
+
 # importing all the needed modules
 from Catalogue import Catalogue
 from termcolor import colored, cprint   

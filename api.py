@@ -1,3 +1,9 @@
+'''
+API (Appliation Programming Interface)
+    This file is the Programming Interface using which Buyer/Seller App onboard the catalog and score them.
+    This is the main file which will be available to the developers to use.
+'''
+
 # API for Catalog Scoring
 
 # importing the needed modules

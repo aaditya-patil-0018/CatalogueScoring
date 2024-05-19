@@ -1,3 +1,9 @@
+'''
+nullChecker
+    This file checks the completeness of the data
+    It identifies the number of null datapoints in the catalog and returns us the value.
+'''
+
 # This program checks the null values in the catalogue
 
 # importing the needed modules

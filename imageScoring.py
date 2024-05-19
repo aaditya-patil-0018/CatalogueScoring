@@ -1,3 +1,8 @@
+'''
+imageScoring
+    This file is used to score the images and it's quality, it's important to know the correctness of the images used.
+'''
+
 # Import necessary libraries
 import cv2
 import numpy as np
