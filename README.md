@@ -1,8 +1,8 @@
-
-
-## Team: 🌊Oceanflow 
+# Catalogue Scoring
 
 ## Created by: Aaditya Mahesh Patil
+
+#### Team: Oceanflow 🌊
 
 Welcome to **CatalogIQ**! This project addresses a critical problem in decentralized e-commerce networks: the scoring of catalogues to ensure a seamless user experience and optimal sales performance.
 
@@ -12,7 +12,7 @@ In decentralized e-commerce networks, consumer-end applications often receive un
 
 ### 🚀 Solution Overview
 
-CatalogIQ provides a robust scoring mechanism for catalogues using an API. This solution ensures that all catalogues within the decentralized network are scored effectively, maintaining a high standard of quality and enhancing the overall user experience.
+CatalogIQ provides a robust scoring mechanism for catalogues using an API. This solution ensures that all catalogues within the decentralized network are scored effectively, based on Compliance, Correctness & Completeness, maintaining a high standard of quality and enhancing the overall user experience.
 
 ### 🔗 Access the Scoring Mechanism
 
@@ -21,7 +21,8 @@ Check out our website for the scoring mechanism using the API:
 
 ### 📬 Contact
 
-For more information, feel free to reach out to **Aaditya Mahesh Patil**.
+For more information, feel free to reach out to **Aaditya Mahesh Patil**
+Linkedin: https://www.linkedin.com/in/fca-aadi/
 
 ---
 
