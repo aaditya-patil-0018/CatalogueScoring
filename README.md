@@ -19,6 +19,15 @@ CatalogIQ provides a robust scoring mechanism for catalogues using an API. This 
 Check out our website for the scoring mechanism using the API:
 [CatalogIQ Scoring API](https://github.com/aaditya-patil-0018/CatalogueScoring/assets/61956742/a26a241e-7e30-4d01-8b56-e40535d681cc)
 
+### 📂 Project Directory Structure
+
+1. **Dataset Directory**: 📦 Contains zip files of the downloaded datasets.
+2. **Dataset**: 🗂️ Contains extracted files of the datasets.
+3. **Others**: 🛠️ Scripts for creating sample catalogues, scraping the internet for images, and data management.
+4. **testing_catalog_data**: 🧪 Contains sample testing catalogue files.
+5. **uploads**: 📤 Stores uploaded catalogues for scoring.
+6. **Website**: 🌐 Files and scripts for creating the website.
+
 ### 📬 Contact
 
 For more information, feel free to reach out to **Aaditya Mahesh Patil**
