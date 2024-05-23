@@ -15,43 +15,73 @@ import json
 import re
 
 class attributesScoring:
-    
+        
     def __init__(self, CatalogueData, CatalogueInformation):
         # self.catalogue = Catalogue()
         # self.catalogue = catalogue
         # self.catalogueData = self.catalogue.open(filename)
+        
+        # we get the catalogue data from the user
         self.catalogueData = CatalogueData
+        # we get the catlaogue information from the user {columnname: dataype}
         self.catalogueInformation = CatalogueInformation
         self.catalogueAttributes = {}
+        # getting the values of the essential columns (attributes) that the catalogue should contain
         self.essentialAttributesFile = "essentialColumns.json"
         self.attributesDictionary = {}
+        
         # self.score()
 
     def check(self):
+        '''
+            This file checks for the clean attribute names
+                => This file checks the naming style of the attribute name
+                => This file makes sure that the column names 
+        '''
         # self.catalogueInformation = self.catalogue.information()
         self.attributeList = []
+        # this function would read all the essentialAttributes specified in the essentialColumns.json file
         self.readEssentialAttributes()
+        # looping through all the attributes in the catlogue passed
         for attribute in self.catalogueInformation:
+            # converting the passed column data in the form of clean way
             cleanAttribute = re.sub(r'[^a-zA-Z0-9]', '', attribute).lower()
+            # addinf the attribute name to attributeList for marking that it has been traversed
             self.attributeList.append(cleanAttribute)
+            # identifying and checking the attirbute is essential and needed column or not
             self.identifyAttribute(cleanAttribute)
 
     def readEssentialAttributes(self):
+        '''
+            This file reads the essentialColumns.json file and it reads & adds the data to the
+                => self.essentialAttributes : json Dictionary that stores all the essential attributes data
+                => self.attributesDictionary : this Dictionary keeps track of the essential attributes present in essentialAttributes dictionar as key and 0 or 1 as value based on the presence of that attribute in the catalog file
+        '''
         # Opening and Reading File
         with open(self.essentialAttributesFile, 'r') as file:
             self.essentialAttributes = json.load(file)
+        # creating the dictionary for storing the corresponding attribute presence in passed catlaogue file
         for attributes in self.essentialAttributes["columns"]:
             self.attributesDictionary[attributes] = [0]
     
     def identifyAttribute(self, attribute):
+        '''
+            This function is used to identify the presence of the attributes in the passed catalog file corresponding to the essentialAttributes that are added in the essentialColumns.json file
+        '''
+        # looping through all the essential attributes key:
         for attributes in self.essentialAttributes["columns"]:
+            # looping through all the possilbe name of the attribute that could be potentially used in the catalog by the user
             for token in self.essentialAttributes["columns"][attributes][0]:
+                # if token and attribute are the same then changing the status of the attirbutesDictionary to 1
+                # appeneding the attribute present in catalog to the attributesDictionary[attribute]'s list
                 if token == attribute:# or attribute in token: # or token in attribute:
                     # if token == # here we would check the datatype of the essential attribute matches data's
                     # print(colored(f"{attribute.capitalize()}", color="light_green"))
                     self.attributesDictionary[attributes][0] = 1
                     self.attributesDictionary[attributes].append(attribute)
+                    # return True as the attirbute is present in the essentialColumns
                     return True
+        # reuturn False as attirbute is not present in the essentialColumns
         return False
 
     def score(self):

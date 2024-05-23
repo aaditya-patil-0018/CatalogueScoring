@@ -51,6 +51,11 @@ class Catalogue:
         return jsonData
 
     def information(self):
+        '''
+            This file returns the dictionary containing the information of the dataset
+                key: column name
+                value: datatypes
+        '''
         try:
             # getting the columns list
             columnsList = list(self.CatalogueData.columns)
